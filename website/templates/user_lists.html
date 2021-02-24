@@ -1,0 +1,33 @@
+{% extends "base.html" %} {% block title %}My Lists{% endblock %}
+{% block content %}
+<a href=add_list><button type="button" class="btn btn-primary btn-lg btn-block">Add New List</button></a>
+<br />
+<br />
+{% for list in user.lists[::-1] %}
+<form method="POST">
+<div class="card text-center">
+    <div class="card-header">
+        {% if list.finished and list.tasks|length !=0 %}
+        <div class="text-primary">Finished!</div>
+        {% elif list.finished and list.tasks|length == 0 %}
+        <div class="text-secondary">No Tasks</div>
+        {% else %}
+        <div class="text-danger">Not Completed</div>
+        {% endif %}
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">{{ list.name }}</h5>
+      <p class="card-text">{{ list.description }}</p>
+      <div class="d-grid gap-2 d-md-block">
+        <button class="btn btn-danger" type="button" onClick="deleteList({{ list.id }})">Delete</button>
+        <button class="btn btn-primary" type="submit" onClick="getListId({{ list.id }})">Open List</button>
+    </div>
+    </div>
+    <div class="card-footer text-muted">
+      {{ list.date }}
+    </div>
+</div>
+</form>
+<br />
+{% endfor %}
+{% endblock %}
