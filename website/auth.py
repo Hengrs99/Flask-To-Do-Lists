@@ -5,8 +5,15 @@ from flask_login import login_user, login_required, logout_user, current_user
 
 auth = Blueprint('auth', __name__)
 
+#AUTHENTICATION
+
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
+    """
+    displays user login page
+    :exception: POST
+    :return: None
+    """
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
@@ -27,11 +34,20 @@ def login():
 @auth.route('/logout')
 @login_required
 def logout():
+    """
+    logs user out and redirect to login page
+    :return: None
+    """
     logout_user()
     return redirect(url_for('auth.login'))
 
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
+    """
+    displays user sign up page
+    :exception: POST
+    :return: None
+    """
     if request.method == 'POST':
         email = request.form.get('email')
         nickname = request.form.get('nickname')

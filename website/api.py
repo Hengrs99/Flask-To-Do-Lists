@@ -6,7 +6,13 @@ import json, os
 
 api = Blueprint('api', __name__)
 
+# API
+
 def get_current_list_id():
+    """
+    reads id of currently used list from .current_list_id.txt
+    :return: id of current list
+    """
     path = f'{os.path.dirname(os.path.realpath(__file__))}\\current_list_id.txt'
     with open(path, 'r') as f:
         current_list_id = f.readline()
@@ -14,6 +20,11 @@ def get_current_list_id():
     return current_list_id
 
 def set_current_list_id(list_id):
+    """
+    saves id of currently used list to .current_list_id.txt
+    :param list_id: int
+    :return: None
+    """
     list_id = list_id
     path = f'{os.path.dirname(os.path.realpath(__file__))}\\current_list_id.txt'
     with open(path, 'w') as f:
@@ -21,6 +32,11 @@ def set_current_list_id(list_id):
 
 @api.route('/add_task', methods=['POST'])
 def add_task():
+    """
+    adds new task specified by user to database
+    :exception: POST
+    :return: an empty json dobject
+    """
     list_id = get_current_list_id()
     list = List.query.get(list_id)
     task_data = json.loads(request.data)
@@ -37,6 +53,11 @@ def add_task():
 
 @api.route('/get_list_id', methods=['POST'])
 def get_list_id():
+    """
+    gets id of currently used list by reading info sent by frontend
+    :exception: POST
+    :return: an empty json object
+    """
     list_data = json.loads(request.data)
     list_id = list_data['listId']
     list = List.query.get(list_id)
@@ -49,6 +70,11 @@ def get_list_id():
 
 @api.route('/update_task_state', methods=['POST'])
 def update_task_state():
+    """
+    changes state of currently modified task based on id sent by frontend
+    :exception: POST
+    :return: an empty json object
+    """
     task_data = json.loads(request.data)
     task_id = task_data['taskId']
     task_to_update = Task.query.get(task_id)
@@ -61,6 +87,11 @@ def update_task_state():
 
 @api.route('/delete_list', methods=['POST'])
 def delete_list():
+    """
+    deletes specified list using id sent by frontend
+    :exception: POST
+    :return: an empty json object
+    """
     list_data = json.loads(request.data)
     list_id = list_data['listId']
     list_to_delete = List.query.get(list_id)
@@ -74,6 +105,11 @@ def delete_list():
 
 @api.route('/delete_task', methods=['POST'])
 def delete_task():
+    """
+    deletes specified task using id sent by frontend
+    :exception: POST
+    :return: an empty json object
+    """
     task_data = json.loads(request.data)
     task_id = task_data['taskId']
     task_to_delete = Task.query.get(task_id)
@@ -86,5 +122,9 @@ def delete_task():
 
 @api.route('/return_to_lists')
 def return_to_lists():
+    """
+    redirects user to main page
+    :return: None
+    """
     flash('List Saved!')
     return redirect(url_for('views.user_lists'))
