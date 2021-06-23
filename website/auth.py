@@ -60,7 +60,7 @@ def sign_up():
 
         user = models.User.query.filter_by(email=email).first()
         if user:
-            flash('User alredy registered!', category='error')
+            flash('User already registered!', category='error')
         elif len(email) < 5:
             flash('Email must be greater than 4 characters.', category='error')
         elif len(nickname) < 2:
