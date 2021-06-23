@@ -5,7 +5,9 @@ from flask_login import login_user, login_required, logout_user, current_user
 
 auth = Blueprint('auth', __name__)
 
-#AUTHENTICATION
+
+# AUTHENTICATION
+
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -31,6 +33,7 @@ def login():
 
     return render_template("login.html", user=current_user)
 
+
 @auth.route('/logout')
 @login_required
 def logout():
@@ -39,7 +42,8 @@ def logout():
     :return: None
     """
     logout_user()
-    return redirect(url_for('auth.login'))
+    return redirect(url_for('views.about'))
+
 
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
@@ -66,7 +70,8 @@ def sign_up():
         elif len(password1) < 8:
             flash('Password must be at least 7 characters long.', category='error')
         else:
-            new_user = models.User(email=email, nickname=nickname, password=generate_password_hash(password1, method='sha256'))
+            new_user = models.User(email=email, nickname=nickname,
+                                   password=generate_password_hash(password1, method='sha256'))
             db.session.add(new_user)
             db.session.commit()
             flash("Sign-up was successful! You are now signed in.", category='success')

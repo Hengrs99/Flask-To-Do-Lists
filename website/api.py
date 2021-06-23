@@ -8,6 +8,7 @@ api = Blueprint('api', __name__)
 
 # API
 
+
 def get_current_list_id():
     """
     reads id of currently used list from .current_list_id.txt
@@ -18,6 +19,7 @@ def get_current_list_id():
         current_list_id = f.readline()
         
     return current_list_id
+
 
 def set_current_list_id(list_id):
     """
@@ -30,6 +32,7 @@ def set_current_list_id(list_id):
     with open(path, 'w') as f:
         f.write(str(list_id))
 
+
 @api.route('/add_task', methods=['POST'])
 def add_task():
     """
@@ -38,7 +41,6 @@ def add_task():
     :return: an empty json dobject
     """
     list_id = get_current_list_id()
-    list = List.query.get(list_id)
     task_data = json.loads(request.data)
     task_text = task_data['taskText']
 
@@ -50,6 +52,7 @@ def add_task():
         db.session.commit()
     
     return jsonify({})
+
 
 @api.route('/get_list_id', methods=['POST'])
 def get_list_id():
@@ -68,6 +71,7 @@ def get_list_id():
     
     return jsonify({})
 
+
 @api.route('/update_task_state', methods=['POST'])
 def update_task_state():
     """
@@ -84,6 +88,7 @@ def update_task_state():
         db.session.commit()
     
     return jsonify({})
+
 
 @api.route('/delete_list', methods=['POST'])
 def delete_list():
@@ -103,6 +108,7 @@ def delete_list():
 
     return jsonify({})
 
+
 @api.route('/delete_task', methods=['POST'])
 def delete_task():
     """
@@ -119,6 +125,7 @@ def delete_task():
         db.session.commit()
 
     return jsonify({})
+
 
 @api.route('/return_to_lists')
 def return_to_lists():

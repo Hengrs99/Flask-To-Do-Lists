@@ -1,0 +1,20 @@
+{% extends "base.html" %} {% block title %}About{% endblock %}
+{% block content %}
+    <figure class="text-center">
+        <h1 class="shadow p-3 mb-5 bg-body rounded">About Page</h1>
+        <div class="shadow-sm p-3 mb-5 bg-body rounded">
+            <p><h4>This is a small web application for creating and managing simple to-do lists.</h4></p>
+            <p><h4>It was made using Python's Flask framework and some Javascript. All the code is available on my
+            <a href="https://github.com/Hengrs99/Flask-To-Do-Lists" target="_blank">GitHub</a>.</h4></p>
+            <p><h4>In order to work with to-do lists, you need to register an account or log in, if you already have one.</h4></p>
+            <br>
+
+            {% if not user.is_authenticated %}
+            <a href="/sign-up"><button type="button" class="btn btn-primary btn-lg">Register</button></a>
+            <a href="/login"><button type="button" class="btn btn-secondary btn-lg">Log in</button></a>
+            {% else %}
+            <a href="/logout"><button type="button" class="btn btn-danger btn-lg">Log out</button></a>
+            {% endif %}
+        </div>
+    </figure>
+{% endblock %}

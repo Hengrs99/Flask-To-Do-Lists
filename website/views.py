@@ -1,15 +1,15 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from . import db
-from .models import List, Task
+from .models import List
 from .api import get_current_list_id, set_current_list_id
-import json
 
 views = Blueprint('views', __name__)
 
+
 def update_lists_states():
     """
-    updates states of all lists in databse by checking if all tasks are finished
+    updates states of all lists in database by checking if all tasks are finished
     :return: None
     """
     lists = List.query.all()
@@ -25,7 +25,17 @@ def update_lists_states():
 
 # VIEWS
 
-@views.route('/', methods=['GET', 'POST'])
+
+@views.route('/')
+def about():
+    """
+    displays an about page
+    :return: None
+    """
+    return render_template("about.html", user=current_user)
+
+
+@views.route('/my-lists', methods=['GET', 'POST'])
 @login_required
 def user_lists():
     """
@@ -39,6 +49,7 @@ def user_lists():
     
     update_lists_states()
     return render_template("user_lists.html", user=current_user)
+
 
 @views.route('/add_list', methods=['GET', 'POST'])
 def add_list():
@@ -63,6 +74,7 @@ def add_list():
             return redirect(url_for('.open_list'))
         
     return render_template("add_list.html", user=current_user)
+
 
 @views.route('/open_list')
 def open_list():

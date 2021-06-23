@@ -3,7 +3,7 @@ function deleteList(listId) {
     method: "POST",
     body: JSON.stringify({ listId: listId }),
   }).then((_res) => {
-    window.location.href = "/";
+    window.location.href = "/my-lists";
   });
 }
 
